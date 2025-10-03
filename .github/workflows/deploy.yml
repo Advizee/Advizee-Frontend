@@ -1,0 +1,56 @@
+name: Build and deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      DIST_DIR: dist    
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Cache npm
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: npm-cache-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            npm-cache-
+
+      - name: Install dependencies (npm)
+        run: |
+          echo "→ Installing dependencies with npm"
+          npm install
+
+      - name: Build
+        run: |
+          echo "→ Running build"
+          npm run build
+
+      - name: dist contents
+        run: |
+          echo "→ Dist dir listing:"
+          ls -la ${{ env.DIST_DIR }}
+
+      - name: Deploy to Plesk
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ${{ secrets.FTP_LOCALDIR }}
+          server-dir: ${{ secrets.FTP_TARGET_PATH }}
