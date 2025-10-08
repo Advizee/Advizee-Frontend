@@ -9,6 +9,8 @@
   text-decoration: none;
   display: inline-block;
   border: none;
+  gap: 40px;
+
 }
 
 .btn.primary {

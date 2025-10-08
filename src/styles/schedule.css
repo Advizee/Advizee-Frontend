@@ -1,19 +1,70 @@
-/* ===== Base Schedule Section (for popup content too) ===== */
+/* ===== Popup Overlay ===== */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+/* ===== Popup Box ===== */
+.popup-box {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  width: 95%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: popup-zoom 0.35s ease-out;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-top: 6px solid #2563eb;
+}
+
+@keyframes popup-zoom {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ===== Close Button ===== */
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #444;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover { color: #1e40af; }
+
+/* ===== Titles ===== */
 .schedule-title {
+  font-size: 2rem;
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
   color: #1a202c;
   text-align: center;
+  text-align: center;
 }
 
 .schedule-subtitle {
   font-size: 1.1rem;
+  font-size: 1.1rem;
   margin-bottom: 2rem;
   color: #4a5568;
   text-align: center;
+  text-align: center;
 }
 
+/* ===== Platform Options ===== */
 .schedule-options {
   display: flex;
   justify-content: center;
@@ -25,47 +76,44 @@
 .schedule-card {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 1.2rem 2rem;
+  gap: 0.8rem;
+  padding: 1rem 1.8rem;
   border-radius: 12px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: #fff;
   background: #4a5568;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, transform 0.3s ease;
   min-width: 160px;
   justify-content: center;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
-.schedule-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-}
+.schedule-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
 
 .schedule-card.active {
-  outline: 3px solid #1a202c;
+  outline: 3px solid #2563eb;
+  box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
 }
 
-.google {
-  background: #4285f4;
+.schedule-card svg {
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  padding: 4px;
+  transition: transform 0.3s ease;
 }
 
-.outlook {
-  background: #0078d4;
-}
+.schedule-card:hover svg { transform: scale(1.2); }
 
-/* Form */
-.schedule-form {
-  max-width: 450px;
-  margin: 0 auto;
-  text-align: left;
-}
+.google { background: #4285f4; }
+.outlook { background: #0078d4; }
 
-.form-group {
-  margin-bottom: 1.5rem;
-}
+/* ===== Form ===== */
+.schedule-form { max-width: 450px; margin: 0 auto; text-align: left; }
+
+.form-group { margin-bottom: 1.5rem; }
 
 .form-group label {
   display: flex;
@@ -78,27 +126,94 @@
 
 .form-group input {
   width: 100%;
-  padding: 0.7rem;
-  border-radius: 8px;
+  padding: 0.85rem;
+  border-radius: 12px;
   border: 1px solid #cbd5e0;
   font-size: 1rem;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+/* ===== Confirm Button ===== */
 .confirm-btn {
   width: 100%;
   padding: 1rem;
-  background: #2563eb;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
   color: white;
   font-size: 1.1rem;
   font-weight: 600;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .confirm-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(37, 99, 235, 0.35);
+}
+
+/* ===== Confirmation Box ===== */
+.confirmation-box {
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: #f9faff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.confirmation-box h2 {
+  color: #2563eb;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+}
+
+.confirmation-box p {
+  margin: 0.5rem 0;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.meeting-link {
+  display: inline-block;
+  margin-top: 0.8rem;
+  padding: 0.65rem 1.2rem;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.meeting-link:hover {
   background: #1e40af;
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .popup-box { padding: 2rem 1.5rem; }
+  .schedule-card { min-width: 140px; font-size: 0.95rem; padding: 0.85rem 1.5rem; }
+  .confirm-btn { font-size: 1rem; padding: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+  .popup-box { padding: 1.5rem 1rem; }
+  .schedule-title { font-size: 1.6rem; }
+  .schedule-subtitle { font-size: 1rem; }
 }
 
 /* ===== Popup Overlay ===== */

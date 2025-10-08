@@ -1,0 +1,242 @@
+/* =========================
+   About Page Styling
+========================= */
+.about-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  font-family: 'Inter', sans-serif;
+  color: #1a202c;
+  background: linear-gradient(135deg, #eef5ff 0%, #ffffff 100%);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating Shapes for Consistency */
+.about-page::before,
+.about-page::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.12;
+  z-index: 0;
+  animation: floatShape 8s ease-in-out infinite;
+}
+
+.about-page::before {
+  width: 260px;
+  height: 260px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  top: -90px;
+  left: -90px;
+}
+
+.about-page::after {
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(135deg, #1e40af, #2563eb);
+  bottom: -60px;
+  right: -60px;
+  animation-delay: 4s;
+}
+
+@keyframes floatShape {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-20px) translateX(15px); }
+}
+
+/* Header */
+.about-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.about-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1e40af;
+}
+
+.about-subtitle {
+  font-size: 1.1rem;
+  color: #4a5568;
+  margin-top: 0.8rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Mission / Vision / Team */
+.about-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.about-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.1);
+}
+
+.about-card h2 {
+  font-size: 1.4rem;
+  margin: 1rem 0;
+  color: #1a202c;
+}
+
+.about-card p {
+  font-size: 0.95rem;
+  color: #4a5568;
+  line-height: 1.6;
+}
+
+.about-icon {
+  font-size: 2rem;
+  color: #2563eb;
+  margin-bottom: 0.8rem;
+}
+
+/* Extra Sections */
+.about-extra {
+  text-align: center;
+  margin: 3rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.about-extra h2 {
+  font-size: 2rem;
+  color: #1a202c;
+  margin-bottom: 1rem;
+}
+
+.about-extra p, .about-extra ul {
+  max-width: 750px;
+  margin: 0 auto;
+  color: #4a5568;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.about-extra ul {
+  list-style: none;
+  padding: 0;
+}
+
+.about-extra li {
+  margin: 0.5rem 0;
+}
+
+/* Values Section */
+.about-values {
+  margin: 3rem 0;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.about-values h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #1a202c;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.value-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 35px rgba(0,0,0,0.1);
+}
+
+.value-card h3 {
+  margin: 1rem 0;
+  color: #1a202c;
+  font-size: 1.2rem;
+}
+
+.value-card p {
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+/* Call to Action */
+.about-cta {
+  text-align: center;
+  margin-top: 4rem;
+  background: linear-gradient(90deg, #2563eb, #1e40af);
+  padding: 3rem 2rem;
+  border-radius: 18px;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+
+.about-cta h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.about-cta p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about-btn {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: #fff;
+  color: #1e40af;
+  font-weight: 600;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.about-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: #f1f5ff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-title { font-size: 2.2rem; }
+  .about-subtitle { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .about-title { font-size: 1.8rem; }
+  .about-subtitle { font-size: 0.9rem; }
+  .about-card, .value-card { padding: 1.5rem; }
+  .about-cta { padding: 2rem 1.2rem; }
+}
