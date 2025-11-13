@@ -30,7 +30,7 @@ const FAQ: React.FC = () => {
 
   return (
     <section className="faq" data-aos="fade-up" data-aos-delay="800">
-      <h2 className="faq-title">❓ Frequently Asked Questions</h2>
+      <h2 className="faq-title">Frequently Asked Questions ❓</h2>
       <div className="faq-list">
         {faqs.map((item, index) => (
           <div
