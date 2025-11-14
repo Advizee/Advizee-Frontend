@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import type { Dayjs } from "dayjs";
 
 interface ScheduleProps {
   onClose: () => void;
