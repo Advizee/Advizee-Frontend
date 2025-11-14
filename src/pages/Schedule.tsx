@@ -1,30 +1,34 @@
 import React, { useState } from "react";
 import "../styles/schedule.css";
-import { Calendar, Clock, Video, X } from "lucide-react";
+import { X } from "lucide-react";
+
+import dayjs, { Dayjs } from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 interface ScheduleProps {
   onClose: () => void;
 }
 
 const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
-  const [platform, setPlatform] = useState<string | null>(null);
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(null);
+
   const [confirmed, setConfirmed] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!platform || !date || !time) {
-      alert("⚠️ Please select a platform, date, and time.");
+
+    if (!name || !email || !phone || !selectedDateTime) {
+      alert("⚠️ Please fill all fields and select date & time.");
       return;
     }
+
     setConfirmed(true);
   };
-
-  const meetingLink =
-    platform === "Google Meet"
-      ? "https://meet.google.com/xyz-123"
-      : "https://outlook.live.com/calendar/";
 
   return (
     <div className="popup-overlay">
@@ -36,55 +40,73 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
         {!confirmed ? (
           <>
             <h1 className="schedule-title">Schedule a Meeting</h1>
-            <p className="schedule-subtitle">Choose your platform and time</p>
-
-            {/* Platforms */}
-            <div className="schedule-options">
-              <button
-                type="button"
-                className={`schedule-card google ${
-                  platform === "Google Meet" ? "active" : ""
-                }`}
-                onClick={() => setPlatform("Google Meet")}
-              >
-                <Video size={24} /> Google Meet
-              </button>
-
-              <button
-                type="button"
-                className={`schedule-card outlook ${
-                  platform === "Outlook" ? "active" : ""
-                }`}
-                onClick={() => setPlatform("Outlook")}
-              >
-                <Video size={24} /> Outlook
-              </button>
-            </div>
+            <p className="schedule-subtitle">Fill in your details</p>
 
             {/* Form */}
             <form className="schedule-form" onSubmit={handleSubmit}>
+
+              {/* Name */}
               <div className="form-group">
-                <label htmlFor="date">
-                  <Calendar size={18} /> Select Date
-                </label>
+                <label>Your Name</label>
                 <input
-                  type="date"
-                  id="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  type="text"
+                  placeholder="Enter your full name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
                 />
               </div>
 
+              {/* Email */}
               <div className="form-group">
-                <label htmlFor="time">
-                  <Clock size={18} /> Select Time
-                </label>
+                <label>Email Address</label>
                 <input
-                  type="time"
-                  id="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
+              </div>
+
+              {/* Phone */}
+              <div className="form-group">
+                <label>Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Date-Time Picker */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker
+                  label="Select Date & Time"
+                  value={selectedDateTime}
+                  onChange={(newValue) => setSelectedDateTime(newValue)}
+                   ampm={false}                         
+  timeSteps={{ minutes: 30 }}  
+                    
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      variant: "outlined",
+                      sx: { background: "#fff", marginBottom: 3 },
+                    },
+                    popper: {
+                      disablePortal: false,
+                      sx: { zIndex: 9999999 },
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+
+              {/* Crispy Note */}
+              <div className="platform-note">
+                📌 Your meeting will be scheduled in <strong>Google Meet</strong>.
               </div>
 
               <button type="submit" className="btn confirm-btn">
@@ -95,26 +117,20 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
         ) : (
           <div className="confirmation-box">
             <h2>✅ Your Meeting is Scheduled!</h2>
+
+            <p><strong>Name:</strong> {name}</p>
+            <p><strong>Email:</strong> {email}</p>
+            <p><strong>Phone:</strong> {phone}</p>
+
             <p>
-              <strong>Platform:</strong> {platform}
+              <strong>Date & Time:</strong><br />
+              {selectedDateTime?.format("DD MMM YYYY, hh:mm A")}
             </p>
-            <p>
-              <strong>Date:</strong> {date}
-            </p>
-            <p>
-              <strong>Time:</strong> {time}
-            </p>
-            <p>
-              <strong>Meeting Link:</strong>{" "}
-              <a
-                href={meetingLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="meeting-link"
-              >
-                {meetingLink}
-              </a>
-            </p>
+
+            <div className="email-note">
+              📩 Your meeting link has been sent to your email.<br />
+              If you can't find it, please check your <strong>Spam</strong> folder.
+            </div>
 
             <button className="btn primary" onClick={onClose}>
               Close
