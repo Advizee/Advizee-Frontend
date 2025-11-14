@@ -16,7 +16,7 @@
   padding: 2.5rem 2rem;
   border-radius: 16px;
   width: 95%;
-  max-width: 520px;
+  max-width: 860px;
   overflow: visible !important;
   position: relative;
   animation: popup-zoom 0.35s ease-out;
@@ -25,8 +25,14 @@
 }
 
 @keyframes popup-zoom {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Close button */
@@ -52,7 +58,7 @@
   margin-bottom: 1.5rem;
 }
 
-/* ==================== Input Fields ==================== */
+/* ==================== Form Inputs ==================== */
 .form-group {
   margin-bottom: 1.3rem;
 }
@@ -89,7 +95,7 @@
   color: #1e3a8a;
 }
 
-/* ==================== Confirm button ==================== */
+/* ==================== Confirm Button ==================== */
 .confirm-btn {
   width: 100%;
   padding: 1rem;
@@ -98,9 +104,14 @@
   border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
+  border: none;
 }
 
-/* ==================== Confirmation ==================== */
+.confirm-btn:hover {
+  opacity: 0.9;
+}
+
+/* ==================== Confirmation Box ==================== */
 .confirmation-box {
   text-align: center;
   background: #f9faff;
@@ -116,43 +127,199 @@
   border-left: 4px solid #2563eb;
 }
 
-/* ========================================================= */
-/* =============== ✔ FIX 1: MUI Popper CLICK FIX =========== */
-/* ========================================================= */
-.MuiPickersPopper-root,
-.MuiPopper-root,
-.MuiPopover-root,
-.MuiModal-root {
-  z-index: 999999999 !important;
-  pointer-events: auto !important;
+/* ==================== Main Grid Layout ==================== */
+.schedule-grid {
+  width: 860px;
+  max-width: calc(100vw - 40px);
+  padding: 20px;
 }
 
-/* ========================================================= */
-/* =========== ✔ FIX 2: HIDE HOURS BEFORE 9 ================ */
-/* ========================================================= */
-.MuiClockNumber-root[data-value="0"],
-.MuiClockNumber-root[data-value="1"],
-.MuiClockNumber-root[data-value="2"],
-.MuiClockNumber-root[data-value="3"],
-.MuiClockNumber-root[data-value="4"],
-.MuiClockNumber-root[data-value="5"],
-.MuiClockNumber-root[data-value="6"],
-.MuiClockNumber-root[data-value="7"],
-.MuiClockNumber-root[data-value="8"] {
-  display: none !important;
+.schedule-main {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
 }
 
-/* ========================================================= */
-/* =========== ✔ FIX 3: HIDE HOURS AFTER 20 ================ */
-/* ========================================================= */
-.MuiClockNumber-root[data-value="21"],
-.MuiClockNumber-root[data-value="22"],
-.MuiClockNumber-root[data-value="23"] {
-  display: none !important;
+.schedule-calendar {
+  width: 320px;
+  flex: 0 0 320px;
 }
 
-/* ==================== Responsive ==================== */
+.schedule-right {
+  flex: 1 1 auto;
+  min-width: 260px;
+}
+
+.selected-day {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+/* ==================== Compact Slot Grid ==================== */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+
+.slot-btn {
+  padding: 8px 6px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  transition: box-shadow 0.12s, transform 0.06s;
+  font-size: 0.9rem;
+  height: 44px;
+}
+
+.slot-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.slot-btn.selected {
+  background: #0b74ff;
+  color: #fff;
+  border-color: #0b74ff;
+}
+
+.slot-btn.disabled {
+  background: #f6f6f6;
+  color: #9aa0a6;
+  border-color: #eee;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.slot-time {
+  font-weight: 600;
+}
+
+.slot-busy {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* ==================== Pagination Controls ==================== */
+.slots-pagination.top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.page-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid #e6eefb;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.9rem;
+  color: #374151;
+  font-weight: 600;
+}
+
+/* Footer pagination */
+.slots-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.page-legend {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.page-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.link-btn {
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.link-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  color: #a3b3d9;
+}
+
+/* ==================== Compact Form Tweaks ==================== */
+.compact-form .form-group input {
+  padding: 0.6rem;
+  font-size: 0.95rem;
+  border-radius: 10px;
+}
+
+.compact-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.compact-actions .confirm-btn {
+  flex: 1;
+  padding: 0.8rem;
+}
+
+.compact-actions .secondary {
+  flex: 0 0 auto;
+  padding: 0.6rem 0.9rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+/* ==================== Responsive Adjustments ==================== */
+@media (max-width: 720px) {
+  .schedule-main {
+    flex-direction: column;
+  }
+
+  .schedule-calendar {
+    width: 100%;
+    flex-basis: auto;
+  }
+
+  .slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 480px) {
-  .popup-box { padding: 1.5rem 1rem; }
-  .schedule-title { font-size: 1.6rem; }
+  .popup-box {
+    padding: 1.5rem 1rem;
+  }
+
+  .schedule-title {
+    font-size: 1.6rem;
+  }
 }
