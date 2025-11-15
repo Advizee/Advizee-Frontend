@@ -1,158 +1,185 @@
-/* ==================== Popup Overlay ==================== */
+/* ==================== Overlay & modal ==================== */
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  backdrop-filter: blur(4px);
+  background: rgba(6,10,20,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  backdrop-filter: blur(3px);
 }
-
-/* ==================== Popup Box ==================== */
 .popup-box {
-  background: #ffffff;
-  padding: 2.5rem 2rem;
-  border-radius: 16px;
-  width: 95%;
-  max-width: 520px;
-  overflow: visible !important;
-  position: relative;
-  animation: popup-zoom 0.35s ease-out;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-top: 6px solid #2563eb;
+  background:#fff;
+  width:94%;
+  max-width:980px;
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 18px 40px rgba(7,12,30,0.12);
+  position:relative;
+  border-top:6px solid #2563eb;
 }
+.close-btn { position:absolute; right:12px; top:10px; background:transparent; border:none; cursor:pointer; }
 
-@keyframes popup-zoom {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-/* Close button */
-.close-btn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-}
-
-/* ==================== Titles ==================== */
+/* ==================== Header ==================== */
 .schedule-title {
-  font-size: 2rem;
-  font-weight: 700;
-  text-align: center;
+  text-align:center;
+  font-size:1.95rem;
+  font-weight:800;
+  margin: 4px 0 12px;
+  color:#0f172a;
 }
 
-.schedule-subtitle {
-  text-align: center;
-  color: #4a5568;
-  margin-bottom: 1.5rem;
+/* ==================== Two-column grid ==================== */
+.schedule-grid {
+  display:grid;
+  grid-template-columns: 520px 360px;
+  gap: 24px;
+  align-items:start;
 }
 
-/* ==================== Input Fields ==================== */
-.form-group {
-  margin-bottom: 1.3rem;
+/* Left column */
+.left-column { display:flex; flex-direction:column; gap:12px; }
+.choose-label { font-weight:700; color:#334155; margin-bottom:4px; }
+.calendar-area { padding-bottom:4px; }
+
+/* ==================== COMBINED PAGINATION BAR ==================== */
+.combined-pagination {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin: 6px 0 10px;
 }
 
-.form-group label {
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-  display: block;
+/* pagination controls area (left) */
+.pagination-controls {
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
-.form-group input {
-  width: 100%;
-  padding: 0.85rem;
-  border-radius: 12px;
-  border: 1px solid #cbd5e0;
-  font-size: 1rem;
-  transition: 0.2s;
-}
-
-.form-group input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 8px rgba(37, 99, 235, 0.2);
-  outline: none;
-}
-
-/* ==================== Crispy Note ==================== */
-.platform-note {
-  background: #e8f0ff;
-  border-left: 4px solid #2563eb;
-  padding: 0.9rem;
-  margin-bottom: 1.2rem;
+/* compact page indicator */
+.page-indicator-compact {
+  padding: 6px 10px;
   border-radius: 8px;
-  font-size: 0.95rem;
-  color: #1e3a8a;
+  background: #fff;
+  border: 1px solid #eef6ff;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-/* ==================== Confirm button ==================== */
+/* slots summary (right) */
+.slots-summary {
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+/* small page buttons */
+.page-btn {
+  width:34px;height:34px;border-radius:8px;border:1px solid #e6eefb;background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.page-btn:disabled { opacity:0.55; cursor:not-allowed; }
+
+/* ==================== Slot grid (compact) ==================== */
+.slots-area { margin-top:6px; }
+.slots-grid.compact {
+  display:grid;
+  grid-template-columns: repeat(3, minmax(86px, 1fr));
+  gap:10px;
+}
+.slot-btn {
+  height:46px;
+  border-radius:10px;
+  border:1px solid #e9eef8;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px 10px;
+  font-weight:700;
+  cursor:pointer;
+  transition: transform .06s, box-shadow .08s, border-color .08s;
+  position:relative;
+}
+.slot-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(12,20,40,0.06);
+}
+
+/* selected visual indicator */
+.slot-btn.selected {
+  background: linear-gradient(180deg,#0b74ff,#075edc);
+  color:#fff;
+  border-color: rgba(11,116,255,0.9);
+  box-shadow: 0 8px 30px rgba(11,116,255,0.12);
+}
+
+/* disabled style */
+.slot-btn.disabled {
+  background:#f4f7fb;
+  color:#9aa0a6;
+  border-color:#eef2f8;
+  cursor:not-allowed;
+  opacity:0.95;
+}
+.slot-time { font-weight:700; }
+.slot-busy { font-size:12px; opacity:0.85; }
+
+/* ==================== Right column (form) ==================== */
+.right-column {
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+.form-stack {
+  width:100%;
+  max-width:360px; /* keeps the right column visually centered and balanced */
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.form-group label { display:block; font-weight:700; margin-bottom:6px; color:#0f172a; }
+.form-group input {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6eef8;
+  font-size:1rem;
+}
+.form-group input:focus { outline:none; box-shadow:0 12px 30px rgba(14,20,40,0.04); border-color:#2563eb; }
+
+/* vertical actions (right column) */
+.form-actions-vertical { display:flex; flex-direction:column; gap:10px; margin-top:6px; }
 .confirm-btn {
-  width: 100%;
-  padding: 1rem;
-  background: linear-gradient(90deg, #2563eb, #1e40af);
-  color: #fff;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s;
+  background: linear-gradient(90deg,#2563eb,#1e40af);
+  color:#fff;
+  padding:12px 14px;
+  border-radius:12px;
+  border:none;
+  font-weight:800;
+  cursor:pointer;
+}
+.btn.secondary { background:#fff; border:1px solid #e6eef8; color:#0f172a; padding:10px 12px; border-radius:10px; }
+
+/* small note */
+.small-note { font-size:0.92rem; color:#64748b; margin-top:6px; }
+
+/* confirmation box */
+.confirmation-box { text-align:center; padding:14px; background:#f9fbff; border-radius:10px; }
+
+/* responsive */
+@media (max-width: 940px) {
+  .schedule-grid { grid-template-columns: 1fr; }
+  .right-column { order: 2; justify-content:flex-start; }
+  .left-column { order: 1; }
+  .popup-box { max-width:760px; padding:14px; }
+}
+@media (max-width: 520px) {
+  .slots-grid.compact { grid-template-columns: repeat(2, 1fr); gap:8px; }
+  .schedule-title { font-size:1.5rem; }
 }
 
-/* ==================== Confirmation ==================== */
-.confirmation-box {
-  text-align: center;
-  background: #f9faff;
-  padding: 1.5rem;
-  border-radius: 12px;
-}
-
-.email-note {
-  background: #eef4ff;
-  padding: 1rem;
-  border-radius: 10px;
-  margin-top: 1rem;
-  border-left: 4px solid #2563eb;
-}
-
-/* ========================================================= */
-/* =============== ✔ FIX 1: MUI Popper CLICK FIX =========== */
-/* ========================================================= */
-.MuiPickersPopper-root,
-.MuiPopper-root,
-.MuiPopover-root,
-.MuiModal-root {
-  z-index: 999999999 !important;
-  pointer-events: auto !important;
-}
-
-/* ========================================================= */
-/* =========== ✔ FIX 2: HIDE HOURS BEFORE 9 ================ */
-/* ========================================================= */
-.MuiClockNumber-root[data-value="0"],
-.MuiClockNumber-root[data-value="1"],
-.MuiClockNumber-root[data-value="2"],
-.MuiClockNumber-root[data-value="3"],
-.MuiClockNumber-root[data-value="4"],
-.MuiClockNumber-root[data-value="5"],
-.MuiClockNumber-root[data-value="6"],
-.MuiClockNumber-root[data-value="7"],
-.MuiClockNumber-root[data-value="8"] {
-  display: none !important;
-}
-
-/* ========================================================= */
-/* =========== ✔ FIX 3: HIDE HOURS AFTER 20 ================ */
-/* ========================================================= */
-.MuiClockNumber-root[data-value="21"],
-.MuiClockNumber-root[data-value="22"],
-.MuiClockNumber-root[data-value="23"] {
-  display: none !important;
-}
-
-/* ==================== Responsive ==================== */
-@media (max-width: 480px) {
-  .popup-box { padding: 1.5rem 1rem; }
-  .schedule-title { font-size: 1.6rem; }
-}
+/* accessibility */
+.slot-btn:focus { outline: 3px solid rgba(37,99,235,0.15); outline-offset: 2px; }
+.page-btn:focus { outline: 3px solid rgba(37,99,235,0.12); outline-offset: 2px; }
