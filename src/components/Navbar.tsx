@@ -75,8 +75,8 @@ const Navbar: React.FC = () => {
           <li><Link className="nav-btn" to="/about">About</Link></li>
         </ul>
 
-        <Link to="/login">
-          <button className="login-btn">Advizee Login</button>
+        <Link to="https://advizee.github.io/subpage/">
+          <button className="login-btn">Contact Us</button>
         </Link>
       </div>
     </nav>
