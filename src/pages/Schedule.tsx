@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/dist/style.css";
+import dayjs from "dayjs";
+import classNames from "classnames";
+import { Check, X, ChevronLeft, ChevronRight } from "lucide-react";
 import "../styles/schedule.css";
 import { X } from "lucide-react";
 
@@ -7,8 +12,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-interface ScheduleProps {
-  onClose: () => void;
+type BookedSlot = string;
+
+const STATIC_BOOKED: Record<string, BookedSlot[]> = {
+  [dayjs().format("YYYY-MM-DD")]: ["11:00", "14:30", "18:00"],
+  [dayjs().add(1, "day").format("YYYY-MM-DD")]: ["09:30", "12:00", "16:30"],
+  [dayjs().add(3, "day").format("YYYY-MM-DD")]: ["10:00", "10:30", "20:00"],
+};
+
+interface Props {
+  onClose?: () => void;
 }
 
 const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
@@ -18,6 +31,47 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
   const [selectedDateTime, setSelectedDateTime] = useState<Dayjs | null>(null);
 
   const [confirmed, setConfirmed] = useState(false);
+  const OFFICE_START_HOUR = 9;
+  const OFFICE_END_HOUR = 23;
+  const STEP_MINUTES = 30;
+  const PAGE_SIZE = 9; 
+  const [page, setPage] = useState(0);
+  useEffect(() => {
+    if (!selectedDate) return;
+    setLoadingSlots(true);
+    setSelectedTime(null); 
+    setPage(0);
+    const t = setTimeout(() => {
+      const iso = dayjs(selectedDate).format("YYYY-MM-DD");
+      setBookedSlots(STATIC_BOOKED[iso] ?? []);
+      setLoadingSlots(false);
+    }, 120);
+    return () => clearTimeout(t);
+  }, [selectedDate]);
+
+  const timeSlots = useMemo(() => {
+    if (!selectedDate) return [];
+    const date = dayjs(selectedDate).startOf("day");
+    const start = date.hour(OFFICE_START_HOUR).minute(0).second(0);
+    const end = date.hour(OFFICE_END_HOUR).minute(0).second(0);
+    const slots: string[] = [];
+    let cur = start;
+    while (cur.isBefore(end) || cur.isSame(end)) {
+      slots.push(cur.format("HH:mm"));
+      cur = cur.add(STEP_MINUTES, "minute");
+    }
+    return slots;
+  }, [selectedDate]);
+
+  const totalPages = Math.max(1, Math.ceil(timeSlots.length / PAGE_SIZE));
+  useEffect(() => { if (page >= totalPages) setPage(totalPages - 1); }, [totalPages, page]);
+
+  const pageSlots = useMemo(() => timeSlots.slice(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE), [timeSlots, page]);
+
+  const goPrev = () => setPage(p => Math.max(0, p - 1));
+  const goNext = () => setPage(p => Math.min(totalPages - 1, p + 1));
+  const goFirst = () => setPage(0);
+  const goLast = () => setPage(totalPages - 1);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,10 +86,8 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
 
   return (
     <div className="popup-overlay">
-      <div className="popup-box">
-        <button className="close-btn" onClick={onClose}>
-          <X size={22} />
-        </button>
+      <div className="popup-box two-column-layout">
+        <button className="close-btn" onClick={resetAndClose}><X size={18} /></button>
 
         {!confirmed ? (
           <>
@@ -80,6 +132,12 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
                   required
                 />
               </div>
+              <div className="right-column">
+                <div className="form-stack">
+                  <div className="form-group">
+                    <label>Your Name</label>
+                    <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your full name" />
+                  </div>
 
               {/* Date-Time Picker */}
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -142,4 +200,4 @@ const Schedule: React.FC<ScheduleProps> = ({ onClose }) => {
   );
 };
 
-export default Schedule;
+export default ScheduleWithSlotsStatic;
